@@ -34,7 +34,7 @@ jobs:
         run: poetry install
 
       - name: Run backend tests
-        run: pytest
+        run: poetry run pytest
   frontend:
     runs-on: ubuntu-latest
     defaults:
