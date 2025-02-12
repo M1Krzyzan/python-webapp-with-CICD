@@ -58,19 +58,11 @@ jobs:
   push_docker_images:
     runs-on: ubuntu-latest
     needs: [backend, frontend]
-    outputs:
-      timestamp: ${{ steps.generate_timestamp.outputs.timestamp }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Generate timestamp
-        id: generate_timestamp
-        run: |
-          TIMESTAMP=$(date +'%Y-%m-%d:%H-%M-%S')
-          echo "::set-output name=timestamp::$TIMESTAMP"
-
-      - name: Create .env file for tests
+      - name: Create .env file for production
         run: |
           echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> .env
           echo "MONGO_USER=${{ secrets.MONGO_USER }}" >> .env
@@ -97,14 +89,14 @@ jobs:
         with:
           context: ./backend
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/paim-webapp-backend:${{ needs.push_docker_images.outputs.timestamp }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/paim-webapp-backend:${{ github.sha }}
 
       - name: Build Docker image for frontend
         uses: docker/build-push-action@v6
         with:
           context: ./frontend
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/paim-webapp-frontend:${{ needs.push_docker_images.outputs.timestamp }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/paim-webapp-frontend:${{ github.sha }}
 
 
 
