@@ -17,12 +17,6 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Setup poetry
-        run: pip install --no-cache-dir "poetry==1.8.4"
-
-      - name: Install dependencies
-        run: poetry install
-
       - name: Create .env file for tests
         run: |
           echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> .env
@@ -32,6 +26,12 @@ jobs:
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
           echo "REACT_APP_URL=${{ secrets.REACT_APP_URL }}" >> .env
           echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> .env
+
+      - name: Setup poetry
+        run: pip install --no-cache-dir "poetry==1.8.4"
+
+      - name: Install dependencies
+        run: poetry install
 
       - name: Run backend tests
         run: pytest
