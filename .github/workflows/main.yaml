@@ -64,6 +64,7 @@ jobs:
 
       - name: Create .env file for production
         run: |
+          cd ./backend
           echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> .env
           echo "MONGO_USER=${{ secrets.MONGO_USER }}" >> .env
           echo "MONGO_DATABASE=${{ secrets.MONGO_DATABASE }}" >> .env
