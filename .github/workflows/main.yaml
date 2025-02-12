@@ -93,14 +93,14 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image for backend
-        uses: atctions/build-push-action
+        uses: docker/build-push-action@v6
         with:
           context: ./backend
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/paim-webapp-backend:${{ needs.push_docker_images.outputs.timestamp }}
 
       - name: Build Docker image for frontend
-        uses: atctions/build-push-action
+        uses: docker/build-push-action@v6
         with:
           context: ./frontend
           push: ${{ github.event_name != 'pull_request' }}
