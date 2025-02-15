@@ -44,10 +44,10 @@ jobs:
         run: |
           mkdir -p artifact
           cp -r $SITE_PACKAGES/* artifact/
-          cp -r backend/application artifact/
-          cp -r backend/domain artifact/
-          cp -r backend/infrastructure artifact/
-          cp -r backend/paim-app_function artifact/
+          cp -r application artifact/
+          cp -r domain artifact/
+          cp -r infrastructure artifact/
+          cp -r paim-app_function artifact/
           cp host.json artifact/
           rm -rf artifact/tests  # Remove test files if needed
 
