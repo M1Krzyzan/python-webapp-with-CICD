@@ -35,6 +35,27 @@ jobs:
 
       - name: Run backend tests
         run: poetry run pytest
+
+      - name: Find site-packages path
+        id: site_packages
+        run: echo "SITE_PACKAGES=$(python -c 'import site; print(site.getsitepackages()[0])')" >> $GITHUB_ENV
+
+      - name: Package backend for deployment
+        run: |
+          mkdir -p artifact
+          cp -r $SITE_PACKAGES/* artifact/
+          cp -r backend/application artifact/
+          cp -r backend/domain artifact/
+          cp -r backend/infrastructure artifact/
+          cp -r backend/paim-app_function artifact/
+          cp host.json artifact/
+          rm -rf artifact/tests  # Remove test files if needed
+
+      - name: Upload Backend Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend
+          path: artifact
   frontend:
     runs-on: ubuntu-latest
     defaults:
@@ -55,49 +76,14 @@ jobs:
       - name: Run frontend tests
         run: npm test
 
-  push_docker_images:
-    runs-on: ubuntu-latest
-    needs: [backend, frontend]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Build frontend
+        run: npm run build
 
-      - name: Create .env file for production
-        run: |
-          cd ./backend
-          echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> .env
-          echo "MONGO_USER=${{ secrets.MONGO_USER }}" >> .env
-          echo "MONGO_DATABASE=${{ secrets.MONGO_DATABASE }}" >> .env
-          echo "MONGO_URL=${{ secrets.MONGO_URL }}" >> .env
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-          echo "REACT_APP_URL=${{ secrets.REACT_APP_URL }}" >> .env
-          echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> .env
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
+      - name: Upload Frontend Artifact
+        uses: actions/upload-artifact@v4
         with:
-          username: ${{  secrets.DOCKERHUB_USERNAME }}
-          password: ${{  secrets.DOCKERHUB_TOKEN }}
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build Docker image for backend
-        uses: docker/build-push-action@v6
-        with:
-          context: ./backend
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/paim-webapp-backend:${{ github.sha }}
-
-      - name: Build Docker image for frontend
-        uses: docker/build-push-action@v6
-        with:
-          context: ./frontend
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/paim-webapp-frontend:${{ github.sha }}
+            name: frontend
+            path: dist
 
 
 
