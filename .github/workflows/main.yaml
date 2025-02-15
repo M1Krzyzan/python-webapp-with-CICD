@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: backend
-          path: ./artifact
+          path: backend/artifact
   frontend:
     runs-on: ubuntu-latest
     defaults:
@@ -83,7 +83,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
             name: frontend
-            path: ./dist
+            path: frontend/dist
 
 
 
