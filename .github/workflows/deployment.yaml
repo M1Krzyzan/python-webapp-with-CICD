@@ -83,8 +83,8 @@ jobs:
 
       - name: Debuging
         run: |
-          echo $RESOURCE_GROUP_NAME $FUNCTION_APP_NAME
-          ls -R backend/artifact
+          echo "$RESOURCE_GROUP_NAME $FUNCTION_APP_NAME"
+          ls
 
       - name: Azure login
         uses: azure/login@v1
@@ -92,7 +92,4 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy to Azure Functions
-        run: az functionapp deployment source config-zip \
-              --resource-group $RESOURCE_GROUP_NAME \
-              --name $FUNCTION_APP_NAME \
-              --src artifact/backend.zip
+        run: az functionapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $FUNCTION_APP_NAME --src artifact/backend.zip
