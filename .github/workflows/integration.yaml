@@ -47,7 +47,7 @@ jobs:
           cp -r application artifact/
           cp -r domain artifact/
           cp -r infrastructure artifact/
-          cp -r paim-app_function artifact/
+          cp -r paim-app-function artifact/
           cp host.json artifact/
           rm -rf artifact/tests  # Remove test files if needed
 
