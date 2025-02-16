@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy-infra:
-    if: github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/master'
+    if: github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/main'
     defaults:
       run:
         working-directory: infra
