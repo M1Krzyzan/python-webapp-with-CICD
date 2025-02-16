@@ -47,7 +47,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Get Storage Account Name
-        run: echo "STORAGE_ACCOUNT_NAME=$(az storage account list --query '[?contains(name, 'frontendstorage')].name' -o tsv)" >> $GITHUB_ENV
+        run: echo "STORAGE_ACCOUNT_NAME=$(az storage account list --query "[?contains(name, 'frontendstorage')].name" -o tsv)" >> $GITHUB_ENV
 
       - name: Upload Files to Static Website
         run: az storage blob upload-batch \
@@ -75,4 +75,4 @@ jobs:
         run: az functionapp deployment source config-zip \
               --resource-group paim-app-rg \
               --name paim-app-function \
-              --src backend/artifact
+              --src backend.zip
