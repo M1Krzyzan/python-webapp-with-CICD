@@ -10,15 +10,15 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "main" {
-  name     = "paim-app-rg"
-  location = "North Europe"
-}
-
 resource "random_string" "unique" {
   length  = 8
   special = false
   upper   = false
+}
+
+resource "azurerm_resource_group" "main" {
+  name     = "paim-app-rg${random_string.unique.result}"
+  location = "North Europe"
 }
 
 resource "azurerm_storage_account" "frontend" {
