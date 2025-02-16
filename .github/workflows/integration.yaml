@@ -43,13 +43,19 @@ jobs:
       - name: Package backend for deployment
         run: |
           mkdir -p artifact
+          poetry install --without dev
           cp -r $SITE_PACKAGES/* artifact/
           cp -r application artifact/
           cp -r domain artifact/
           cp -r infrastructure artifact/
           cp -r paim-app-function artifact/
           cp host.json artifact/
-          rm -rf artifact/tests  # Remove test files if needed
+          rm -rf artifact/tests
+
+      - name: Create a zip file for the backend artifact
+        run: |
+          cd ./artifact
+          zip -r ../backend.zip .
 
       - name: Upload Backend Artifact
         uses: actions/upload-artifact@v4
