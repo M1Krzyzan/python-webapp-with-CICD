@@ -55,9 +55,6 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Debuging
-        run: ls -R backend/artifact
-
       - name: Azure login
         uses: azure/login@v1
         with:
@@ -83,6 +80,11 @@ jobs:
           name: backend
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Debuging
+        run: |
+          echo $RESOURCE_GROUP_NAME $FUNCTION_APP_NAME
+          ls -R backend/artifact
 
       - name: Azure login
         uses: azure/login@v1
