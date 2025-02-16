@@ -26,7 +26,6 @@ from infrastructure.mongo.order_repository import OrderRepositoryMongo
 from infrastructure.mongo.truck_repository import TruckRepositoryMongo
 from infrastructure.mongo.warehouse_repository import WarehouseRepositoryMongo
 
-os.environ["MONGO_DATABASE"] = "shop_db_dev"
 
 
 @pytest.fixture(scope="module")

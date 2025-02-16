@@ -15,8 +15,6 @@ from infrastructure.containers import Container
 from infrastructure.mongo.product_repository import ProductRepositoryMongo
 from application.auth.auth_service import AuthService
 
-os.environ["MONGO_DATABASE"] = "shop_db_dev"
-
 
 @pytest.fixture(scope="module")
 def test_container(mocked_product_repository):

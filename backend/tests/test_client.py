@@ -16,7 +16,6 @@ from infrastructure.mongo.address_repository import AddressRepositoryMongo
 from infrastructure.mongo.client_repository import ClientRepositoryMongo
 from application.auth.auth_service import AuthService  # Import AuthService
 
-os.environ["MONGO_DATABASE"] = "shop_db_dev"
 
 
 @pytest.fixture(scope="module")

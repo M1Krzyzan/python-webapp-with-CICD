@@ -14,7 +14,13 @@ class MongoDBClient:
         if not cls._instance:
             with cls._lock:
                 if not cls._instance:
-                    load_dotenv()  # Load environment variables from .env file
+                    current_dir = os.path.dirname(os.path.abspath(__file__))
+                    # Move up two directories - to backend directory
+                    for _ in range(2):
+                        current_dir = os.path.dirname(os.path.abspath(current_dir))
+                    env_file_path = os.path.join(current_dir, ".env")
+                    if os.path.isfile(env_file_path):
+                        load_dotenv()  # Load environment variables from .env file
                     mongo_user = os.getenv("MONGO_USER")
                     mongo_password = os.getenv("MONGO_PASSWORD")
                     mongo_uri = (
@@ -40,8 +46,13 @@ class MongoDBClient:
         Returns:
             The database instance.
         """
-        # Load the database name from environment variables
-        load_dotenv()
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        # Move up two directories - to backend directory
+        for _ in range(2):
+            current_dir = os.path.dirname(os.path.abspath(current_dir))
+        env_file_path = os.path.join(current_dir, ".env")
+        if os.path.isfile(env_file_path):
+            load_dotenv()  # Load environment variables from .env file
         mongo_database = os.getenv("MONGO_DATABASE")
         if not mongo_database:
             raise ValueError("MONGO_DATABASE is not set in the .env file")
