@@ -76,7 +76,7 @@ jobs:
 
   deploy-backend:
     runs-on: ubuntu-latest
-    needs: deploy-infra
+    needs: deployinfra
     env:
       RESOURCE_GROUP_NAME: ${{ needs.deployinfra.outputs.resource_group }}
       FUNCTION_APP_NAME: ${{ needs.deployinfra.outputs.function_app }}
