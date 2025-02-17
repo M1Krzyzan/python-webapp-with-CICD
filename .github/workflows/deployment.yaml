@@ -10,9 +10,9 @@ jobs:
   deploy-infra:
     if: github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/main'
     outputs:
-      resource_group: ${{  steps.tf_output1.resource_group }}
-      function_app: ${{  steps.tf_output2.function_app }}
-      frontend_storage: ${{  steps.tf_output3.frontend_storage }}
+      resource_group: ${{ steps.tf_output1.resource_group }}
+      function_app: ${{ steps.tf_output2.function_app }}
+      frontend_storage: ${{ steps.tf_output3.frontend_storage }}
     defaults:
       run:
         working-directory: infra
@@ -35,18 +35,15 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve
 
-      - name: Terraform Output1
-        id: tf_output1
+      - id: tf_output1
         run: |
           echo "resource_group=$(terraform output -raw resource_group_name)" >> "$GITHUB_OUTPUT"
 
-      - name: Terraform Output2
-        id: tf_output2
+      - id: tf_output2
         run: |
           echo "function_app=$(terraform output -raw function_app_name)" >> "$GITHUB_OUTPUT"
 
-      - name: Terraform Output3
-        id: tf_output3
+      - id: tf_output3
         run: |
           echo "frontend_storage=$(terraform output -raw frontend_storage_name)" >> "$GITHUB_OUTPUT"
 
