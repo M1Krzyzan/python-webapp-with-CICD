@@ -38,9 +38,15 @@ jobs:
       - name: Terraform Output
         id: tf_output
         run: |
-          echo "resource_group=$(terraform output -raw resource_group_name)" >> $GITHUB_OUTPUT
-          echo "function_app=$(terraform output -raw function_app_name)" >> $GITHUB_OUTPUT
-          echo "frontend_storage=$(terraform output -raw frontend_storage_name)" >> $GITHUB_OUTPUT
+          echo "resource_group=$(terraform output -raw resource_group_name)" >> "$GITHUB_OUTPUT"
+          echo "function_app=$(terraform output -raw function_app_name)" >> "$GITHUB_OUTPUT"
+          echo "frontend_storage=$(terraform output -raw frontend_storage_name)" >> "$GITHUB_OUTPUT"
+
+      - name: Debug Outputs
+        run: |
+          echo "Resource Group: ${{ steps.tf_output.resource_group }}"
+          echo "Function App: ${{ steps.tf_output.function_app }}"
+          echo "Frontend Storage: ${{ steps.tf_output.frontend_storage }}"
 
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -54,12 +60,6 @@ jobs:
           name: frontend
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Debug Outputs
-        run: |
-          echo "Resource Group: ${{ needs.deploy-infra.outputs.resource_group }}"
-          echo "Function App: ${{ needs.deploy-infra.outputs.function_app }}"
-          echo "Frontend Storage: ${{ needs.deploy-infra.outputs.frontend_storage }}"
 
       - name: Azure login
         uses: azure/login@v1
@@ -82,12 +82,6 @@ jobs:
           name: backend
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Debug Outputs
-        run: |
-          echo "Resource Group: ${{ needs.deploy-infra.outputs.resource_group }}"
-          echo "Function App: ${{ needs.deploy-infra.outputs.function_app }}"
-          echo "Frontend Storage: ${{ needs.deploy-infra.outputs.frontend_storage }}"
 
       - name: Azure login
         uses: azure/login@v1
