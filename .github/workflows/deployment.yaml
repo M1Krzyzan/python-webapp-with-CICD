@@ -38,17 +38,20 @@ jobs:
       - id: tf_output1
         run: |
           echo "resource_group=$(terraform output -raw resource_group_name)" >> $GITHUB_OUTPUT
-          echo "$GITHUB_OUTPUT"
 
       - id: tf_output2
         run: |
           echo "function_app=$(terraform output -raw function_app_name)" >> $GITHUB_OUTPUT
-          echo "$GITHUB_OUTPUT"
 
       - id: tf_output3
         run: |
           echo "frontend_storage=$(terraform output -raw frontend_storage_name)" >> $GITHUB_OUTPUT
-          echo "$GITHUB_OUTPUT"
+
+      - name: Debug Outputs
+        run: |
+          echo "Resource Group: ${{ steps.tf_output1.outputs.resource_group }}"
+          echo "Function App: ${{ steps.tf_output1.outputs.function_app }}"
+          echo "Frontend Storage: ${{ steps.tf_output1.outputs.frontend_storage }}"
 
   deploy-frontend:
     runs-on: ubuntu-latest
