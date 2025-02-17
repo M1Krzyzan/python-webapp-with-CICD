@@ -10,9 +10,9 @@ jobs:
   deploy-infra:
     if: github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/main'
     outputs:
-      resource_group: ${{ steps.tf_output1.outputs.resource_group }}
-      function_app: ${{ steps.tf_output2.outputs.function_app }}
-      frontend_storage: ${{ steps.tf_output3.outputs.frontend_storage }}
+      resource_group: ${{ steps.tf_output.outputs.resource_group }}
+      function_app: ${{ steps.tf_output.outputs.function_app }}
+      frontend_storage: ${{ steps.tf_output.outputs.frontend_storage }}
     defaults:
       run:
         working-directory: infra
@@ -35,23 +35,12 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve
 
-      - id: tf_output1
+      - name: Save Terraform output
+        id: tf_output
         run: |
           echo "resource_group=$(terraform output -raw resource_group_name)" >> $GITHUB_OUTPUT
-
-      - id: tf_output2
-        run: |
           echo "function_app=$(terraform output -raw function_app_name)" >> $GITHUB_OUTPUT
-
-      - id: tf_output3
-        run: |
           echo "frontend_storage=$(terraform output -raw frontend_storage_name)" >> $GITHUB_OUTPUT
-
-      - name: Debug Outputs
-        run: |
-          echo "Resource Group: ${{ steps.tf_output1.outputs.resource_group }}"
-          echo "Function App: ${{ steps.tf_output2.outputs.function_app }}"
-          echo "Frontend Storage: ${{ steps.tf_output3.outputs.frontend_storage }}"
 
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -72,7 +61,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Upload Files to Static Website
-        run: az storage blob upload-batch --account-name $STORAGE_ACCOUNT_NAME --destination '$web' --source dist --overwrite
+        run: az storage blob upload-batch --account-name $STORAGE_ACCOUNT_NAME --destination '$web' --source . --overwrite
 
   deploy-backend:
     runs-on: ubuntu-latest
