@@ -37,14 +37,17 @@ jobs:
 
       - id: tf_output1
         run: |
+          echo "resource_group=$(terraform output -raw resource_group_name)"
           echo "resource_group=$(terraform output -raw resource_group_name)" >> "$GITHUB_OUTPUT"
 
       - id: tf_output2
         run: |
+          echo "function_app=$(terraform output -raw function_app_name)"
           echo "function_app=$(terraform output -raw function_app_name)" >> "$GITHUB_OUTPUT"
 
       - id: tf_output3
         run: |
+          echo "frontend_storage=$(terraform output -raw frontend_storage_name)"
           echo "frontend_storage=$(terraform output -raw frontend_storage_name)" >> "$GITHUB_OUTPUT"
 
   deploy-frontend:
