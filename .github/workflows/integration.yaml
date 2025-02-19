@@ -24,7 +24,6 @@ jobs:
           export MONGO_DATABASE="${{ secrets.MONGO_DATABASE_DEV }}"
           export MONGO_URL="${{ secrets.MONGO_URL }}"
           export SECRET_KEY=${{ secrets.SECRET_KEY }}"
-          export REACT_APP_URL="${{ secrets.REACT_APP_URL }}"
           export STRIPE_SECRET_KEY="${{ secrets.STRIPE_SECRET_KEY }}"
 
       - name: Setup poetry
