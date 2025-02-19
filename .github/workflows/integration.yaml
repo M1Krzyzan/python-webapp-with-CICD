@@ -72,7 +72,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: backend
-          path: image_name.txt
+          path: backend/image_name.txt
 
   frontend:
     runs-on: ubuntu-latest
