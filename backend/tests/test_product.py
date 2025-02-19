@@ -10,10 +10,10 @@ from application.product.product_service import ProductService
 from application.responses import ProductResponse
 from domain.entities import Entity
 from domain.exceptions import EntityNotFoundError, InvalidDateType
-from infrastructure import app
-from infrastructure import Container
+from infrastructure.api.main import app
+from infrastructure.containers import Container
 from infrastructure.mongo.product_repository import ProductRepositoryMongo
-from application.auth import AuthService
+from application.auth.auth_service import AuthService
 
 
 @pytest.fixture(scope="module")
