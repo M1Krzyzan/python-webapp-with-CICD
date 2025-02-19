@@ -1,9 +1,9 @@
-output "resource_group_name" {
-  value = azurerm_resource_group.main.name
+output "backend_url" {
+  value = "https://${azurerm_container_app.backend.ingress[0].fqdn}"
 }
 
-output "function_app_name" {
-  value = azurerm_linux_function_app.backend.name
+output "frontend_url" {
+  value = "https://${azurerm_storage_account.frontend.primary_web_endpoint}"
 }
 
 output "frontend_storage_name" {

@@ -1,13 +1,14 @@
 import axios, { AxiosError } from "axios";
 import { Client } from "../model/client.ts";
 import { saveToken } from "../auth/authService.ts";
+import {BACKEND_URL} from "./useProducts.ts"
 
 const registerClients = () => {
   const addClient = async (clientData: Client): Promise<void> => {
     console.log("Registering client:", clientData);
     try {
       const response = await axios.post(
-        "http://localhost:8002/api/register",
+        `${BACKEND_URL}/api/register`,
         JSON.stringify(clientData),
         {
           headers: {

@@ -1,6 +1,6 @@
 name: CI Pipeline
 
-on: [push, pull_request]
+on: push
 
 jobs:
   backend:
@@ -17,51 +17,65 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Create .env file for tests
+      - name: Create env variables for tests
         run: |
-          echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> .env
-          echo "MONGO_USER=${{ secrets.MONGO_USER }}" >> .env
-          echo "MONGO_DATABASE=${{ secrets.MONGO_DATABASE_DEV }}" >> .env
-          echo "MONGO_URL=${{ secrets.MONGO_URL }}" >> .env
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-          echo "REACT_APP_URL=${{ secrets.REACT_APP_URL }}" >> .env
-          echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> .env
+          export MONGO_PASSWORD="${{ secrets.MONGO_PASSWORD }}"
+          export MONGO_USER="${{ secrets.MONGO_USER }}"
+          export MONGO_DATABASE="${{ secrets.MONGO_DATABASE_DEV }}"
+          export MONGO_URL="${{ secrets.MONGO_URL }}"
+          export SECRET_KEY=${{ secrets.SECRET_KEY }}"
+          export REACT_APP_URL="${{ secrets.REACT_APP_URL }}"
+          export STRIPE_SECRET_KEY="${{ secrets.STRIPE_SECRET_KEY }}"
 
       - name: Setup poetry
         run: pip install --no-cache-dir "poetry==1.8.4"
 
+      - name: Cache Poetry Dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pypoetry
+            ~/.cache/pip
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --no-root
 
       - name: Run backend tests
         run: poetry run pytest
 
-      - name: Find site-packages path
-        id: site_packages
-        run: echo "SITE_PACKAGES=$(python -c 'import site; print(site.getsitepackages()[0])')" >> $GITHUB_ENV
+      - name: End job if it's not main branch
+        if: github.ref == 'refs/heads/main'
+        run: exit 0
 
-      - name: Package backend for deployment
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image for backend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/paim-webapp-backend:${{ github.sha }}
+
+      - name: Write image tag to file
         run: |
-          mkdir -p artifact
-          poetry install --without dev
-          cp -r $SITE_PACKAGES/* artifact/
-          cp -r application artifact/
-          cp -r domain artifact/
-          cp -r infrastructure artifact/
-          cp -r paim-app-function artifact/
-          cp host.json artifact/
-          rm -rf artifact/tests
+          echo "${{ secrets.DOCKERHUB_USERNAME }}/paim-webapp-backend:${{ github.sha }}" >> image_name.txt
 
-      - name: Create a zip file for the backend artifact
-        run: |
-          cd ./artifact
-          zip -r ../backend.zip .
-
-      - name: Upload Backend Artifact
+      - name: Upload Artifact with backend image name
         uses: actions/upload-artifact@v4
         with:
           name: backend
-          path: backend/backend.zip
+          path: image_name.txt
+
   frontend:
     runs-on: ubuntu-latest
     defaults:
@@ -75,12 +89,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: "npm"
 
       - name: Install frontend dependencies
         run: npm ci
 
       - name: Run frontend tests
         run: npm test
+
+      - name: End job if it's not main branch
+        if: github.ref == 'refs/heads/main'
+        run: exit 0
 
       - name: Build frontend
         run: npm run build
@@ -89,7 +108,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
             name: frontend
-            path: frontend/dist
-
-
-
+            path: dist

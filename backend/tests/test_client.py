@@ -1,4 +1,3 @@
-import os
 import uuid
 from unittest.mock import AsyncMock
 
@@ -10,11 +9,11 @@ from application.client.client_service import ClientService
 from application.responses import ClientResponse, AddressResponse
 from domain.entities import Entity
 from domain.exceptions import EntityNotFoundError
-from infrastructure.api.main import app
-from infrastructure.containers import Container
+from infrastructure import app
+from infrastructure import Container
 from infrastructure.mongo.address_repository import AddressRepositoryMongo
 from infrastructure.mongo.client_repository import ClientRepositoryMongo
-from application.auth.auth_service import AuthService  # Import AuthService
+from application.auth import AuthService  # Import AuthService
 
 
 

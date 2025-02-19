@@ -20,7 +20,6 @@ container = Container()
 
 app.container = container
 
-# zapobieganie CORS
 origins = [
     "*",  # frontend
 ]

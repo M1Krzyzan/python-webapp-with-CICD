@@ -13,7 +13,7 @@ export interface Product {
   is_vegetable: string;
 }
 
-export const BACKEND_URL = "http://localhost:8002";
+export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8002";
 
 const fetchProductsFromApi = async (): Promise<Product[]> => {
   const response = await axios.get<{ products: Product[] }>(

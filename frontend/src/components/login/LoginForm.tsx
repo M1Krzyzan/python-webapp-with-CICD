@@ -5,6 +5,7 @@ import axios from "axios";
 import { useCustomNavigation } from "../../hooks/useCustomNavigation.ts";
 import { getUserFromToken, TOKEN_KEY } from "../../auth/authService.ts";
 import WestIcon from "@mui/icons-material/West";
+import {BACKEND_URL} from "../../hooks/useProducts.ts";
 
 const LoginForm = () => {
   const { navigateToHome } = useCustomNavigation();
@@ -36,7 +37,7 @@ const LoginForm = () => {
       formData.append("password", password);
 
       const response = await axios.post(
-        "http://127.0.0.1:8002/auth/login",
+        `${BACKEND_URL}/auth/login`,
         formData,
         {
           headers: {

@@ -1,4 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import axios, { AxiosError } from "axios";
+import baseURL from "../services/api"
 
 interface Client {
   email: string;
@@ -22,7 +25,7 @@ const registerClients = () => {
     try {
       // Wysyłanie danych JSON do serwera
       const response = await axios.post(
-        "http://localhost:8000/api/register",
+        `${baseURL}/api/register`,
         clientdata,
         {
           headers: {
@@ -34,8 +37,14 @@ const registerClients = () => {
     } catch (error) {
       if (error instanceof AxiosError) {
         // Wypisanie odpowiedzi błędu z serwera
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         console.error("Error response data:", error.response?.data);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         console.error("Error response status:", error.response?.status);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         console.error("Error response headers:", error.response?.headers);
       } else {
         // Wypisanie ogólnego błędu

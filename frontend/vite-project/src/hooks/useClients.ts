@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import {BACKEND_URL} from "../../../src/hooks/useProducts";
 
 interface Client {
   email: string;
@@ -14,7 +15,7 @@ interface Client {
 const fetchClients = async (): Promise<Client[]> => {
   try {
     const response = await axios.get<Client[]>(
-      "http://localhost:8000/api/clients",
+      `${BACKEND_URL}/api/clients`,
     );
     return response.data;
   } catch (error) {

@@ -8,8 +8,8 @@ from bson import ObjectId
 from dotenv import load_dotenv
 from starlette.testclient import TestClient
 
-from application.auth.auth_service import AuthService
-from application.order.order_service import OrderService
+from application.auth import AuthService
+from application.order import OrderService
 from application.responses import (
     WarehouseResponse,
     OrderResponse,
@@ -18,12 +18,12 @@ from application.responses import (
 )
 from domain.entities import Entity
 from domain.exceptions import InvalidDateType, FailedToUpdateError
-from infrastructure.api.main import app
-from infrastructure.containers import Container
+from infrastructure import app
+from infrastructure import Container
 from infrastructure.mongo.address_repository import AddressRepositoryMongo
 from infrastructure.mongo.client_repository import ClientRepositoryMongo
-from infrastructure.mongo.order_repository import OrderRepositoryMongo
-from infrastructure.mongo.truck_repository import TruckRepositoryMongo
+from infrastructure import OrderRepositoryMongo
+from infrastructure import TruckRepositoryMongo
 from infrastructure.mongo.warehouse_repository import WarehouseRepositoryMongo
 
 
