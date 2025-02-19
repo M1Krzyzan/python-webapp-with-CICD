@@ -65,7 +65,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
-
+frontend/coverage
 # Translations
 *.mo
 *.pot
@@ -157,3 +157,5 @@ cython_debug/
 # PyCharm
 .idea/
 myenv/
+/frontend/coverage/
+/frontend/coverage/

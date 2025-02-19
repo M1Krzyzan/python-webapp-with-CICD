@@ -2,7 +2,12 @@ export default {
   testEnvironment: "jsdom",
   moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
   transform: {
-    ".(ts|tsx)": "ts-jest"
+    ".(ts|tsx)": [
+      'ts-jest',
+      {
+        isolatedModules: true,
+      },
+    ],
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   collectCoverage: true, // Enable coverage collection

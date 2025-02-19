@@ -45,7 +45,7 @@ describe("LoginForm", () => {
 
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledWith(
-        "http://127.0.0.1:8002/auth/login",
+        "http://localhost:8002/auth/login",
         expect.any(FormData),
         {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -84,7 +84,7 @@ describe("LoginForm", () => {
     });
 
     expect(axios.post).toHaveBeenCalledWith(
-      "http://127.0.0.1:8002/auth/login",
+      "http://localhost:8002/auth/login",
       expect.any(FormData),
       {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
