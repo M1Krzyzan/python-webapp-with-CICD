@@ -4,7 +4,6 @@ terraform {
     storage_account_name  = "tfstorageacc1337"
     container_name        = "tf-state"
     key                   = "terraform.tfstate"
-    use_oidc              = true
   }
   required_providers {
     azurerm = {
