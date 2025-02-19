@@ -18,12 +18,12 @@ from application.responses import (
 )
 from domain.entities import Entity
 from domain.exceptions import InvalidDateType, FailedToUpdateError
-from infrastructure import app
-from infrastructure import Container
+from infrastructure.api.main import app
+from infrastructure.containers import Container
 from infrastructure.mongo.address_repository import AddressRepositoryMongo
 from infrastructure.mongo.client_repository import ClientRepositoryMongo
-from infrastructure import OrderRepositoryMongo
-from infrastructure import TruckRepositoryMongo
+from infrastructure.mongo.order_repository import OrderRepositoryMongo
+from infrastructure.mongo.truck_repository import TruckRepositoryMongo
 from infrastructure.mongo.warehouse_repository import WarehouseRepositoryMongo
 
 

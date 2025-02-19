@@ -17,16 +17,6 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Create env variables for tests
-        run: |
-          export MONGO_PASSWORD="${{ secrets.MONGO_PASSWORD }}"
-          export MONGO_USER="${{ secrets.MONGO_USER }}"
-          export MONGO_DATABASE="${{ secrets.MONGO_DATABASE_DEV }}"
-          export MONGO_URL="${{ secrets.MONGO_URL }}"
-          export SECRET_KEY="${{ secrets.SECRET_KEY }}"
-          export REACT_APP_URL="${{ secrets.REACT_APP_URL }}"
-          export STRIPE_SECRET_KEY="${{ secrets.STRIPE_SECRET_KEY }}"
-
       - name: Setup poetry
         run: pip install --no-cache-dir "poetry==1.8.4"
 
@@ -44,6 +34,14 @@ jobs:
         run: poetry install --no-root
 
       - name: Run backend tests
+        env:
+          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+          MONGO_USER: ${{ secrets.MONGO_USER }}
+          MONGO_DATABASE: ${{ secrets.MONGO_DATABASE_DEV }}
+          MONGO_URL: ${{ secrets.MONGO_URL }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          REACT_APP_URL: ${{ secrets.REACT_APP_URL }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
         run: poetry run pytest
 
       - name: End job if it's not main branch
