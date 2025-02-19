@@ -121,3 +121,15 @@ jobs:
         with:
             name: frontend
             path: frontend/dist
+
+  cleanup-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old images from Docker Hub
+        run: |
+          curl -s --user ${{ secrets.DOCKERHUB_USERNAME }}:${{ secrets.DOCKERHUB_TOKEN }} \
+            "https://hub.docker.com/v2/repositories/${{ secrets.DOCKERHUB_USERNAME }}/paim-webapp-backend/tags" \
+            | jq -r '.results | sort_by(.last_updated) | reverse | .[4:] | .[].name' \
+            | xargs -I % curl -X DELETE \
+              -s --user ${{ secrets.DOCKERHUB_USERNAME }}:${{ secrets.DOCKERHUB_TOKEN }} \
+              "https://hub.docker.com/v2/repositories/${{ secrets.DOCKERHUB_USERNAME }}/paim-webapp-backend/tags/%"
