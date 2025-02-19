@@ -8,8 +8,8 @@ from bson import ObjectId
 from dotenv import load_dotenv
 from starlette.testclient import TestClient
 
-from application.auth import AuthService
-from application.order import OrderService
+from application.auth.auth_service import AuthService
+from application.order.order_service import OrderService
 from application.responses import (
     WarehouseResponse,
     OrderResponse,
