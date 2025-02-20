@@ -30,7 +30,7 @@ jobs:
 
       - name: Get docker image name
         run:
-          la
+          ls
           ls ../
           echo "BACKEND_IMAGE=$(head ../image_name.txt -n 1)"
           echo "BACKEND_IMAGE=$(head ../image_name.txt -n 1)" >> $GITHUB_ENV
