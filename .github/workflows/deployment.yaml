@@ -30,6 +30,7 @@ jobs:
 
       - name: Get docker image name
         run: echo "BACKEND_IMAGE=$(head ../image_name.txt -n 1)" >> $GITHUB_ENV
+          echo "BACKEND_IMAGE=$(head ../image_name.txt -n 1)"
 
       - name: Set Azure environment variables
         run: |
