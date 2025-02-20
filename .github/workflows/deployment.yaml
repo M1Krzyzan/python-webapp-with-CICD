@@ -27,7 +27,10 @@ jobs:
           name: backend
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: echo "BACKEND_IMAGE=$(head ../image_name.txt -n 1)" >> $GITHUB_ENV
+
+      - name: Get docker image name
+        run: |
+          echo "BACKEND_IMAGE=$(head ../image_name.txt -n 1)" >> $GITHUB_ENV
 
 
       - name: Set Azure environment variables
