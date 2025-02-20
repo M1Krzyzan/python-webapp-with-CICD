@@ -31,11 +31,6 @@ jobs:
       - name: Get docker image name
         run: echo "BACKEND_IMAGE=$(head image_name.txt -n 1)" >> $GITHUB_ENV
 
-#      - name: Azure login
-#        uses: azure/login@v2
-#        with:
-#          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       - name: Set Azure environment variables
         run: |
           echo "ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}" >> $GITHUB_ENV
@@ -47,7 +42,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -lock=false
 
       - name: Terraform Apply
         run: |
