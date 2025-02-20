@@ -53,7 +53,7 @@ jobs:
             -var="mongo_url=${{ secrets.MONGO_URL }}" \
             -var="secret_key=${{ secrets.SECRET_KEY }}" \
             -var="stripe_secret_key=${{ secrets.STRIPE_SECRET_KEY }}" \
-            -var="react_app_url=${{ secrets.REACT_APP_URL }}
+            -var="react_app_url=${{ secrets.REACT_APP_URL }}"
             -var="backend_image=$BACKEND_IMAGE"
 
       - name: Save Terraform output
