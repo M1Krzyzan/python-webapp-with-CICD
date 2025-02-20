@@ -27,13 +27,7 @@ jobs:
           name: backend
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Get docker image name
-        run: |
-          ls
-          ls ../
-          echo "BACKEND_IMAGE=$(head ../image_name.txt -n 1)"
-          echo "BACKEND_IMAGE=$(head ../image_name.txt -n 1)" >> $GITHUB_ENV
+      - name: echo "BACKEND_IMAGE=$(head ../image_name.txt -n 1)" >> $GITHUB_ENV
 
 
       - name: Set Azure environment variables
@@ -58,7 +52,7 @@ jobs:
             -var="mongo_url=${{ secrets.MONGO_URL }}" \
             -var="secret_key=${{ secrets.SECRET_KEY }}" \
             -var="stripe_secret_key=${{ secrets.STRIPE_SECRET_KEY }}" \
-            -var="react_app_url=${{ secrets.REACT_APP_URL }}"
+            -var="react_app_url=${{ secrets.REACT_APP_URL }}" \
             -var="backend_image=$BACKEND_IMAGE"
 
       - name: Save Terraform output
