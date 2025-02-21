@@ -48,7 +48,7 @@ jobs:
         run: |
           mkdir -p package
           cp -r application domain infrastructure function_app.py host.json pyproject.toml poetry.lock package/
-          cd package && zip -r ../backend.zip .
+          cd package && ls && zip -r ../backend.zip .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
