@@ -102,4 +102,4 @@ jobs:
           az functionapp deployment source config-zip \
             --resource-group paim-app-rg \
             --name paim-app-func \
-            --src backend.zip
+            --src backend.zip --build-remote
