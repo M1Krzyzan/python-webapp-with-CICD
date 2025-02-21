@@ -19,7 +19,3 @@ variable "react_app_url" {
 variable "stripe_secret_key" {
   type = string
 }
-variable "backend_image" {
-  type = string
-  description = "Link to docker image"
-}

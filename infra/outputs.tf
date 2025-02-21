@@ -1,5 +1,5 @@
 output "backend_url" {
-  value = "https://${azurerm_container_app.backend.ingress[0].fqdn}"
+  value = "https://${azurerm_linux_function_app.backend.default_hostname}"
 }
 
 output "frontend_url" {

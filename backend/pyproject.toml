@@ -30,6 +30,7 @@ passlib = "^1.7.4"
 asyncio = "^3.4.3"
 pydantic = {extras = ["email"], version = "^2.10.5"}
 stripe = "^11.4.1"
+azure-functions = "^1.21.3"
 
 
 [tool.poetry.group.dev.dependencies]
