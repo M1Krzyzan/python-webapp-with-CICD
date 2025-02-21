@@ -47,7 +47,8 @@ jobs:
       - name: Package application
         run: |
           mkdir -p package
-          cp -r application domain infrastructure function_app.py host.json pyproject.toml poetry.lock package/
+          poetry export -f requirements.txt --without-hashes --output requirements.txt
+          cp -r application domain infrastructure function_app.py host.json requirements.txt package/
           cd package && ls && zip -r ../backend.zip .
 
       - name: Upload artifact
