@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import axios from "axios";
 import LoginForm from "../../../src/components/login/LoginForm";
 import { MemoryRouter } from "react-router-dom";
-
+import {BACKEND_URL} from "../../../src/hooks/useProducts";
 
 
 jest.mock("axios");
@@ -84,7 +84,7 @@ describe("LoginForm", () => {
     });
 
     expect(axios.post).toHaveBeenCalledWith(
-      "http://localhost:8002/auth/login",
+      BACKEND_URL,
       expect.any(FormData),
       {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
