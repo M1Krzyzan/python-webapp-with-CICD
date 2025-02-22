@@ -10,24 +10,12 @@ import NotFound from "./pages/NotFound";
 import Layout from "./components/layout/Layout";
 import { ProtectedRouteWrapper } from "./auth/ProtectedRouterWrapper.tsx";
 import { UserRole } from "./auth/UserRole.ts";
-import React from "react";
 import CheckoutPage from "./pages/Checkout.tsx";
 import SuccessPage from "./pages/SuccessPage.tsx";
+import {getBackendUrl} from "./config.ts";
+import React from "react";
 
-export let BACKEND_URL =  "http://localhost:8002" ; // Default value
-
-export const loadConfig = async () => {
-  try {
-    const response = await fetch("/config.json");
-    const data = await response.json(); // Store the config globally
-    BACKEND_URL = data.backendUrl;
-    console.log(BACKEND_URL);
-  } catch (error) {
-    console.error("Failed to load config.json, using defaults", error);
-  }
-};
-
-loadConfig();
+export const BACKEND_URL = getBackendUrl();
 
 const App: React.FC = () => {
   return (

@@ -7,9 +7,10 @@ import { Provider } from "react-redux";
 import store, { persistor } from "./redux/store";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { PersistGate } from "redux-persist/integration/react";
+import {loadConfig} from "./config.ts";
 
 const queryClient = new QueryClient();
-
+await loadConfig();
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>
     <Provider store={store}>

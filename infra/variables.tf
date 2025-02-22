@@ -13,9 +13,6 @@ variable "mongo_url" {
 variable "secret_key" {
   type = string
 }
-variable "react_app_url" {
-  type = string
-}
 variable "stripe_secret_key" {
   type = string
 }

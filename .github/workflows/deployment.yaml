@@ -42,7 +42,6 @@ jobs:
             -var="mongo_url=${{ secrets.MONGO_URL }}" \
             -var="secret_key=${{ secrets.SECRET_KEY }}" \
             -var="stripe_secret_key=${{ secrets.STRIPE_SECRET_KEY }}" \
-            -var="react_app_url=${{ secrets.REACT_APP_URL }}" \
 
       - name: Save Terraform output
         id: tf_output
@@ -63,16 +62,6 @@ jobs:
           name: frontend
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create `routes.json`
-        run: |
-          cat <<EOF > routes.json
-          {
-            "navigationFallback": {
-              "rewrite": "/index.html"
-            }
-          }
-          EOF
 
       - name: Azure login
         uses: azure/login@v1
