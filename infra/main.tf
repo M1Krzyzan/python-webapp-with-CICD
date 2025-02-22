@@ -16,6 +16,10 @@ provider "azurerm" {
   features {}
 }
 
+locals {
+  cleaned_frontend_url = replace(azurerm_storage_account.frontend.primary_web_endpoint, "/$", "")
+}
+
 resource "azurerm_resource_group" "tf" {
   name     = "terraform-rg"
   location = "North Europe"
@@ -78,7 +82,7 @@ resource "azurerm_linux_function_app" "backend" {
       python_version = "3.12"
     }
     cors {
-      allowed_origins = [replace(azurerm_storage_account.frontend.primary_web_endpoint, "/$", "")]
+      allowed_origins = [local.cleaned_frontend_url]
       support_credentials = false
     }
   }
@@ -88,7 +92,7 @@ resource "azurerm_linux_function_app" "backend" {
     "MONGO_DATABASE" = var.mongo_database
     "MONGO_URL" = var.mongo_url
     "SECRET_KEY" = var.secret_key
-    "REACT_APP_URL" = replace(azurerm_storage_account.frontend.primary_web_endpoint, "/$", "")
+    "REACT_APP_URL" = local.cleaned_frontend_url
     "STRIPE_SECRET_KEY" = var.stripe_secret_key
   }
 }
