@@ -16,10 +16,6 @@ provider "azurerm" {
   features {}
 }
 
-locals {
-  cleaned_frontend_url = replace(azurerm_storage_account.frontend.primary_web_endpoint, "/$", "")
-}
-
 resource "azurerm_resource_group" "tf" {
   name     = "terraform-rg"
   location = "North Europe"
@@ -52,6 +48,11 @@ resource "azurerm_storage_account" "frontend" {
   static_website {
     index_document = "index.html"
   }
+}
+
+locals {
+  frontend_url = azurerm_storage_account.frontend.primary_web_endpoint
+  cleaned_frontend_url = replace(local.frontend_url, "/$", "")
 }
 
 resource "azurerm_storage_account" "backend" {
