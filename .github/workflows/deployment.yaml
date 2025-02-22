@@ -71,9 +71,9 @@ jobs:
             "backendUrl": "${BACKEND_URL}"
           }
           EOF
-      - name: Create `routes.json`
+      - name: Create `staticwebapp.config.json`
         run: |
-          cat <<EOF > routes.json
+          cat <<EOF > staticwebapp.config.json
           {
             "routes": [
               {
