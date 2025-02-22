@@ -64,16 +64,13 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create `staticwebapp.config.json`
+      - name: Create `routes.json`
         run: |
-          cat <<EOF > staticwebapp.config.json
+          cat <<EOF > routes.json
           {
-            "routes": [
-              {
-                "route": "/*",
-                "rewrite": "/index.html"
-              }
-            ]
+            "navigationFallback": {
+              "rewrite": "/index.html"
+            }
           }
           EOF
 
