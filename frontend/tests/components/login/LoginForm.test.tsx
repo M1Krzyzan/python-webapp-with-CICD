@@ -45,7 +45,7 @@ describe("LoginForm", () => {
 
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledWith(
-        "http://localhost:8002/auth/login",
+        BACKEND_URL,
         expect.any(FormData),
         {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
