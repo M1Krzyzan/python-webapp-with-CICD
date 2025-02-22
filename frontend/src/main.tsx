@@ -10,9 +10,12 @@ import { PersistGate } from "redux-persist/integration/react";
 import {loadConfig} from "./config.ts";
 
 const queryClient = new QueryClient();
-await loadConfig();
-createRoot(document.getElementById("root")!).render(
-  // <StrictMode>
+const root = createRoot(document.getElementById("root")!);
+
+const startApp = async () => {
+  await loadConfig(); // Wait for config.json to load before rendering
+
+  root.render(
     <Provider store={store}>
       <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
@@ -22,5 +25,7 @@ createRoot(document.getElementById("root")!).render(
         </QueryClientProvider>
       </PersistGate>
     </Provider>
-  // </StrictMode>,
-);
+  );
+};
+
+startApp();
