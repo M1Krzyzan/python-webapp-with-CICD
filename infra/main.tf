@@ -88,7 +88,7 @@ resource "azurerm_linux_function_app" "backend" {
     "MONGO_DATABASE" = var.mongo_database
     "MONGO_URL" = var.mongo_url
     "SECRET_KEY" = var.secret_key
-    "REACT_APP_URL" = azurerm_storage_account.frontend.primary_web_endpoint
+    "REACT_APP_URL" = trimspace(azurerm_storage_account.frontend.primary_web_endpoint)
     "STRIPE_SECRET_KEY" = var.stripe_secret_key
   }
 }
