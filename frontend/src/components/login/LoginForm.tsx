@@ -5,7 +5,8 @@ import axios from "axios";
 import { useCustomNavigation } from "../../hooks/useCustomNavigation.ts";
 import { getUserFromToken, TOKEN_KEY } from "../../auth/authService.ts";
 import WestIcon from "@mui/icons-material/West";
-import {BACKEND_URL} from "../../hooks/useProducts.ts";
+import {BACKEND_URL} from "../../App.tsx";
+
 
 const LoginForm = () => {
   const { navigateToHome } = useCustomNavigation();

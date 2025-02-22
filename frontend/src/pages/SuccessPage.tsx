@@ -9,8 +9,9 @@ import { clearCheckoutFormData } from "../model/checkoutFormData.ts";
 import { clearOrderId } from "../model/order.ts";
 import axios from "axios";
 import { RootState } from "../redux/store.ts";
-import { BACKEND_URL } from "../hooks/useProducts.ts";
+
 import { getToken, setAuthorizationHeader } from "../auth/authService.ts";
+import {BACKEND_URL} from "../App.tsx";
 
 const SuccessPage: React.FC = () => {
   const dispatch = useDispatch();

@@ -14,6 +14,20 @@ import React from "react";
 import CheckoutPage from "./pages/Checkout.tsx";
 import SuccessPage from "./pages/SuccessPage.tsx";
 
+let config = { backendUrl: "http://localhost:8002" }; // Default value
+
+export const loadConfig = async () => {
+  try {
+    const response = await fetch("/config.json");
+    config = await response.json(); // Store the config globally
+  } catch (error) {
+    console.error("Failed to load config.json, using defaults", error);
+  }
+};
+
+export const BACKEND_URL = () => config.backendUrl;
+
+
 const App: React.FC = () => {
   return (
     <Routes>

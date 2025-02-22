@@ -1,5 +1,6 @@
 import {useQuery} from "react-query";
 import axios from "axios";
+import {BACKEND_URL} from "../App.tsx";
 
 export interface Product {
   id: string;
@@ -13,18 +14,7 @@ export interface Product {
   is_vegetable: string;
 }
 
-let config = { backendUrl: "http://localhost:8002" }; // Default value
 
-export const loadConfig = async () => {
-  try {
-    const response = await fetch("/config.json");
-    config = await response.json(); // Store the config globally
-  } catch (error) {
-    console.error("Failed to load config.json, using defaults", error);
-  }
-};
-
-export const BACKEND_URL = () => config.backendUrl;
 
 const fetchProductsFromApi = async (): Promise<Product[]> => {
   const response = await axios.get<{ products: Product[] }>(

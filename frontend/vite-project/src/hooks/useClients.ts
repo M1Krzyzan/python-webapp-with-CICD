@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {BACKEND_URL} from "../../../src/hooks/useProducts";
+import {BACKEND_URL} from "../../../src/App";
+
 
 interface Client {
   email: string;

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { BACKEND_URL } from "../hooks/useProducts.ts";
 import { useQuery } from "react-query";
+import {BACKEND_URL} from "../App.tsx";
 
 export interface OrderReportItem {
   region: string;
