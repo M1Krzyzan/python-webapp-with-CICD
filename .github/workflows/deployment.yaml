@@ -105,6 +105,13 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Set REACT_APP_URL in Azure Function App Settings
+        run: |
+          az functionapp config appsettings set \
+            --resource-group paim-app-rg \
+            --name paim-app-func \
+            --settings REACT_APP_URL=${{ env.FRONTEND_URL }}
+
       - name: Deploy to Azure Functions
         run: |
           az functionapp deployment source config-zip \
