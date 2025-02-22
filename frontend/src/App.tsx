@@ -14,7 +14,7 @@ import React from "react";
 import CheckoutPage from "./pages/Checkout.tsx";
 import SuccessPage from "./pages/SuccessPage.tsx";
 
-let BACKEND_URL =  "http://localhost:8002" ; // Default value
+export let BACKEND_URL =  "http://localhost:8002" ; // Default value
 
 export const loadConfig = async () => {
   try {
