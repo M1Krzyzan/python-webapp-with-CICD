@@ -71,6 +71,19 @@ jobs:
             "backendUrl": "${BACKEND_URL}"
           }
           EOF
+      - name: Create `routes.json`
+        run: |
+          cat <<EOF > routes.json
+          {
+            "routes": [
+              {
+                "route": "/*",
+                "serve": "/index.html",
+                "statusCode": 200
+              }
+            ]
+          }
+          EOF
 
       - name: Azure login
         uses: azure/login@v1
