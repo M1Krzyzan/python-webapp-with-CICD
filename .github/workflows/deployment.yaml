@@ -64,13 +64,6 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create `config.json`
-        run: |
-          cat <<EOF > config.json
-          {
-            "backendUrl": "${BACKEND_URL}"
-          }
-          EOF
       - name: Create `staticwebapp.config.json`
         run: |
           cat <<EOF > staticwebapp.config.json
@@ -78,8 +71,7 @@ jobs:
             "routes": [
               {
                 "route": "/*",
-                "serve": "/index.html",
-                "statusCode": 200
+                "rewrite": "/index.html"
               }
             ]
           }
