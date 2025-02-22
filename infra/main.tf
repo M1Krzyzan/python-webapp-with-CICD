@@ -52,7 +52,7 @@ resource "azurerm_storage_account" "frontend" {
 
 locals {
   frontend_url = azurerm_storage_account.frontend.primary_web_endpoint
-    cleaned_frontend_url = join("", slice(split("/", local.frontend_url), 0, length(split("/", local.frontend_url)) - 1))
+    cleaned_frontend_url = trim(local.frontend_url, "/")
 }
 
 resource "azurerm_storage_account" "backend" {
