@@ -78,9 +78,8 @@ resource "azurerm_linux_function_app" "backend" {
       python_version = "3.12"
     }
     cors {
-      allowed_origins = [
-        azurerm_storage_account.frontend.primary_web_endpoint
-      ]
+      allowed_origins = [trimspace(azurerm_storage_account.frontend.primary_web_endpoint)]
+      support_credentials = false
     }
   }
   app_settings = {
