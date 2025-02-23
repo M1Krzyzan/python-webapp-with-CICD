@@ -1,6 +1,11 @@
 name: CI Pipeline
 
-on: push
+on:
+  push:
+    paths:
+      - backend/**
+      - frontend/**
+      - infra/**
 
 jobs:
   backend:
@@ -8,9 +13,23 @@ jobs:
     defaults:
       run:
         working-directory: backend
+    outputs:
+      frontend_changed: ${{ steps.changes.outputs.backend }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Detect changes in backend
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            backend:
+              - 'backend/**'
+
+      - name: Skip if backend hasn't changed
+        if: steps.changes.outputs.backend == 'false'
+        run: echo "No backend changes detected." && exit 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -62,9 +81,23 @@ jobs:
     defaults:
       run:
         working-directory: frontend
+    outputs:
+      frontend_changed: ${{ steps.changes.outputs.frontend }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Detect changes in backend
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            frontend:
+              - 'frontend/**'
+
+      - name: Skip if backend hasn't changed
+        if: steps.changes.outputs.frontend == 'false'
+        run: echo "No frontend changes detected." && exit 0
 
       - name: Setup node.js
         uses: actions/setup-node@v4
