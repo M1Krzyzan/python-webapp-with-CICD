@@ -6,7 +6,7 @@ on:
       - backend/**
       - frontend/**
       - infra/**
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   backend:
