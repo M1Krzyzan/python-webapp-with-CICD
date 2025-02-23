@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {BACKEND_URL} from "../../../src/App";
+import {BACKEND_URL} from "../../../src/config";
 
 
 interface Client {

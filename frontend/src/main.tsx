@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
@@ -10,12 +10,19 @@ import { PersistGate } from "redux-persist/integration/react";
 import {loadConfig} from "./config.ts";
 
 const queryClient = new QueryClient();
-const root = createRoot(document.getElementById("root")!);
 
-const startApp = async () => {
-  await loadConfig(); // Wait for config.json to load before rendering
+const RootComponent = () => {
+  const [isConfigLoaded, setIsConfigLoaded] = useState(false);
 
-  root.render(
+  useEffect(() => {
+    loadConfig().then(() => setIsConfigLoaded(true));
+  }, []);
+
+  if (!isConfigLoaded) {
+    return <div>Loading configuration...</div>; // Prevent rendering until config is ready
+  }
+
+  return (
     <Provider store={store}>
       <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
@@ -28,4 +35,4 @@ const startApp = async () => {
   );
 };
 
-startApp();
+createRoot(document.getElementById("root")!).render(<RootComponent />);

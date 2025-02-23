@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { Client } from "../model/client.ts";
 import { saveToken } from "../auth/authService.ts";
-import {BACKEND_URL} from "../App.tsx";
+import {BACKEND_URL} from "../config.ts";
 
 
 const registerClients = () => {

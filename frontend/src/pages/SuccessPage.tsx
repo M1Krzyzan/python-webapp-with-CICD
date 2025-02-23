@@ -11,7 +11,7 @@ import axios from "axios";
 import { RootState } from "../redux/store.ts";
 
 import { getToken, setAuthorizationHeader } from "../auth/authService.ts";
-import {BACKEND_URL} from "../App.tsx";
+import {BACKEND_URL} from "../config.ts";
 
 const SuccessPage: React.FC = () => {
   const dispatch = useDispatch();

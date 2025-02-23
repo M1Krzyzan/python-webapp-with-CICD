@@ -1,6 +1,6 @@
 import {useQuery} from "react-query";
 import axios from "axios";
-import {BACKEND_URL} from "../App.tsx";
+import {BACKEND_URL} from "../config.ts";
 
 export interface Product {
   id: string;

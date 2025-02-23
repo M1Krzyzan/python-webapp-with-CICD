@@ -1,13 +1,16 @@
-let config = { backendUrl: "http://localhost:8002" }; // Default value
+interface Config {
+  backendUrl: string;
+}
 
-export const loadConfig = async () => {
+export let BACKEND_URL: string = "";
+
+export const loadConfig = async (): Promise<void> => {
   try {
     const response = await fetch("/config.json");
-    const json = await response.json();
-    config = json; // Store the config globally
+    const data: Config = await response.json();
+    BACKEND_URL = data.backendUrl;
+    console.log("Loaded BACKEND_URL:", BACKEND_URL);
   } catch (error) {
-    console.error("Failed to load config.json, using defaults", error);
+    console.error("Failed to load config.json", error);
   }
 };
-
-export const getBackendUrl = () => config.backendUrl;

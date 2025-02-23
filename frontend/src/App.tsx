@@ -12,10 +12,8 @@ import { ProtectedRouteWrapper } from "./auth/ProtectedRouterWrapper.tsx";
 import { UserRole } from "./auth/UserRole.ts";
 import CheckoutPage from "./pages/Checkout.tsx";
 import SuccessPage from "./pages/SuccessPage.tsx";
-import {getBackendUrl} from "./config.ts";
 import React from "react";
 
-export const BACKEND_URL = getBackendUrl();
 
 const App: React.FC = () => {
   return (

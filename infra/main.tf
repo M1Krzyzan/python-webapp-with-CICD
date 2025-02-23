@@ -96,5 +96,6 @@ resource "azurerm_linux_function_app" "backend" {
     "SECRET_KEY" = var.secret_key
     "REACT_APP_URL" = local.cleaned_frontend_url
     "STRIPE_SECRET_KEY" = var.stripe_secret_key
+    SCM_DO_BUILD_DURING_DEPLOYMENT = "true"
   }
 }
