@@ -31,11 +31,9 @@ const SuccessPage: React.FC = () => {
                 const user = getToken();
                 setAuthorizationHeader(user);
 
-                // Wysyłamy pojedyncze zapytanie do backendu, które zajmuje się całą logiką zamówienia
                 const response = await axios.put(`${BACKEND_URL}/api/orders/${orderId}/complete`);
 
                 if (response.status === 200) {
-                    // Backend potwierdza sukces – wykonujemy działania lokalne
                     setOrderCompleted(true);
                     dispatch(clearOrderId());
                     dispatch(clearCart());
