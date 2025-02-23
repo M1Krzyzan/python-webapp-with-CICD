@@ -27,6 +27,7 @@ jobs:
           filters: |
             backend:
               - 'backend/**'
+          initial-fetch-depth: 0
 
       - name: Skip if backend hasn't changed
         if: steps.changes.outputs.backend == 'false'
@@ -95,6 +96,7 @@ jobs:
           filters: |
             frontend:
               - 'frontend/**'
+          initial-fetch-depth: 0
 
       - name: Skip if backend hasn't changed
         if: steps.changes.outputs.frontend == 'false'
