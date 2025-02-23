@@ -62,7 +62,7 @@ jobs:
       - name: Find Last Successful Workflow with Frontend Artifact
         run: |
           LATEST_RUN_ID=$(gh run list \
-            --workflow "CI Pipeline" \
+            --workflow "integration.yaml" \
             --branch main \
             --json databaseId,conclusion \
             --jq '[.[] | select(.conclusion=="success")] | .[].databaseId' | while read RUN_ID; do
@@ -104,7 +104,7 @@ jobs:
       - name: Find Last Successful Workflow with Backend Artifact
         run: |
           LATEST_RUN_ID=$(gh run list \
-            --workflow "CI Pipeline" \
+            --workflow "integration.yaml" \
             --branch main \
             --json databaseId,conclusion \
             --jq '[.[] | select(.conclusion=="success")] | .[].databaseId' | while read RUN_ID; do
