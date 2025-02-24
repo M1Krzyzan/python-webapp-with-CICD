@@ -16,7 +16,6 @@ jobs:
         working-directory: backend
     outputs:
       backend_changed: ${{ steps.changes.outputs.backend }}
-    if: ${{ steps.changes.outputs.backend == 'true' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,6 +30,13 @@ jobs:
             backend:
               - 'backend/**'
           initial-fetch-depth: 0
+
+      - name: Skip if backend hasn't changed
+        if: steps.changes.outputs.backend == 'false'
+        run: |
+          echo "No frontend changes detected. Skipping..."
+          exit 1
+        continue-on-error: true
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -91,7 +97,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Detect changes in backend
+      - name: Detect changes in frontend
         id: changes
         uses: dorny/paths-filter@v3
         with:
@@ -99,6 +105,13 @@ jobs:
             frontend:
               - 'frontend/**'
           initial-fetch-depth: 0
+
+      - name: Skip if frontend hasn't changed
+        if: steps.changes.outputs.frontend == 'false'
+        run: |
+          echo "No frontend changes detected. Skipping..."
+          exit 1
+        continue-on-error: true
 
       - name: Setup node.js
         uses: actions/setup-node@v4
