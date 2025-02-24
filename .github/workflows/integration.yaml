@@ -30,12 +30,14 @@ jobs:
 
   test-build-backend:
     needs: check-changes-backend
-    if: ${{ needs.check-changes-backend.outputs.backend_changed }} == 'true'
+    if: ${{ needs.check-changes-backend.outputs.backend_changed }}
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
     steps:
+      - name: Debugging
+        run: echo ${{ needs.check-changes-backend.outputs.backend_changed }}
       - name: Checkout code
         uses: actions/checkout@v4
         with:
