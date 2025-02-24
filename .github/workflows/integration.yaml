@@ -37,7 +37,8 @@ jobs:
         working-directory: backend
     steps:
       - name: Debugging
-        run: echo ${{ needs.check-changes-backend.outputs.backend_changed }}
+        run: cd /home/runner/work/python-webapp-with-CICD/python-webapp-with-CICD && echo ${{ needs.check-changes-backend.outputs.backend_changed }}
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
