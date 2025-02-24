@@ -90,7 +90,6 @@ jobs:
         working-directory: frontend
     outputs:
       frontend_changed: ${{ steps.changes.outputs.frontend }}
-    if: ${{ steps.changes.outputs.frontend == 'true' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
