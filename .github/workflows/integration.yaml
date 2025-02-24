@@ -9,13 +9,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  backend:
+  check-changes-backend:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     outputs:
-      backend_changed: ${{ steps.changes.outputs.backend }}
+      backend_changed: ${{ steps.changes.outputs.backend_changed }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,12 +28,18 @@ jobs:
               - 'backend/**'
           initial-fetch-depth: 0
 
-      - name: Skip if backend hasn't changed
-        if: steps.changes.outputs.backend == 'false'
-        run: |
-          echo "No frontend changes detected. Skipping..."
-          exit 1
-        continue-on-error: true
+  test-build-backend:
+    needs: check-changes-backend
+    if: ${{ needs.check-changes-backend.outputs.backend_changed }} == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -83,13 +86,10 @@ jobs:
           name: backend
           path: backend/backend.zip
 
-  frontend:
+  check-changes-frontend:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
     outputs:
-      frontend_changed: ${{ steps.changes.outputs.frontend }}
+      frontend_changed: ${{ steps.changes.outputs.frontend_changed }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -105,12 +105,19 @@ jobs:
               - 'frontend/**'
           initial-fetch-depth: 0
 
-      - name: Skip if frontend hasn't changed
-        if: steps.changes.outputs.frontend == 'false'
-        run: |
-          echo "No frontend changes detected. Skipping..."
-          exit 1
-        continue-on-error: true
+      - name:
+  test-build-frontend:
+    needs: check-changes-frontend
+    if: ${{ needs.check-changes-frontend.outputs.frontend_changed }} == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup node.js
         uses: actions/setup-node@v4
@@ -124,10 +131,6 @@ jobs:
 
       - name: Run frontend tests
         run: npm test
-
-      - name: End job if it's not main branch
-        if: github.ref == 'refs/heads/main'
-        run: exit 0
 
       - name: Build frontend
         run: npm run build
