@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       frontend_run_id: ${{ steps.find_frontend_artifact.outputs.frontend_run_id }}
-      backend_run_id: ${{ steps.find_ backend_artifact.outputs.backend_run_id }}
+      backend_run_id: ${{ steps.find_backend_artifact.outputs.backend_run_id }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
