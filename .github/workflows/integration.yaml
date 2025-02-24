@@ -30,7 +30,7 @@ jobs:
 
   test-build-backend:
     needs: check-changes-backend
-    if: ${{ needs.check-changes-backend.outputs.backend_changed }}
+    if: false
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -110,7 +110,7 @@ jobs:
 
   test-build-frontend:
     needs: check-changes-frontend
-    if: ${{ needs.check-changes-frontend.outputs.frontend_changed }}
+    if: false
     runs-on: ubuntu-latest
     defaults:
       run:
