@@ -110,7 +110,7 @@ jobs:
 
   test-build-frontend:
     needs: check-changes-frontend
-    if: ${{ needs.check-changes-frontend.outputs.frontend_changed }} == 'true'
+    if: ${{ needs.check-changes-frontend.outputs.frontend_changed }}
     runs-on: ubuntu-latest
     defaults:
       run:
