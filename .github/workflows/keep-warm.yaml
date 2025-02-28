@@ -11,7 +11,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Find Last Successful Workflow with Frontend Url artifact
+      - name: Find Last Successful Workflow with Backend Url artifact
         id: find_frontend_url_artifact
         run: |
           LATEST_RUN_ID=$(gh run list \
@@ -20,18 +20,18 @@ jobs:
             --json databaseId,conclusion \
             --jq '[.[] | select(.conclusion=="success")] | .[].databaseId' | while read RUN_ID; do
               ARTIFACTS=$(gh api repos/:owner/:repo/actions/runs/$RUN_ID/artifacts --jq '.artifacts[].name')
-              echo "$ARTIFACTS" | grep -q "frontend-url" && echo $RUN_ID && break
+              echo "$ARTIFACTS" | grep -q "backend-url" && echo $RUN_ID && break
             done)
           
-          echo "frontend_run_id=$LATEST_RUN_ID" >> $GITHUB_OUTPUT
+          echo "backend_run_id=$LATEST_RUN_ID" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get Deployment URL
         uses: actions/download-artifact@v4
         with:
-          name: frontend-url
-          run-id: ${{ steps.find_frontend_url_artifact.outputs.frontend_run_id }}
+          name: backend-url
+          run-id: ${{ steps.find_backend_url_artifact.outputs.backend_run_id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Ping Azure Function
