@@ -7,6 +7,7 @@ on:
 jobs:
   keep_warm:
     runs-on: ubuntu-latest
+    outputs:
     steps:
       - name: Find Last Successful Workflow with Frontend Url artifact
         id: find_frontend_url_artifact
@@ -21,10 +22,7 @@ jobs:
             done)
           
           echo "frontend_run_id=$LATEST_RUN_ID" >> $GITHUB_OUTPUT
-
-      - name: Debugging
-        run: |
-          echo ${{ steps.find_frontend_url_artifact.outputs.frontend_run_id }}
+          echo "$LATEST_RUN_ID"
 
       - name: Get Deployment URL
         uses: actions/download-artifact@v4
