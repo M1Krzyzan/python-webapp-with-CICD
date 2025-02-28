@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
             name: frontend-url
-            path: frontend_url.txt
+            path: infra/frontend_url.txt
 
   find-artifacts:
     runs-on: ubuntu-latest
