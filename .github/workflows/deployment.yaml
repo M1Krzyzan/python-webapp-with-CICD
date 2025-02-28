@@ -52,7 +52,7 @@ jobs:
 
       - name: Save frontend_url to file
         run: |
-          terraform output -raw frontend_url >> frontend_url.txt
+          terraform output -raw cleaned_frontend_url >> frontend_url.txt
 
       - name: Upload Frontend Url Artifact
         uses: actions/upload-artifact@v4
