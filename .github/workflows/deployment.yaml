@@ -11,6 +11,7 @@ jobs:
     if: github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/main'
     outputs:
       backend_url: ${{ steps.tf_output.outputs.backend_url }}
+      frontend_url: ${{ steps.tf_output.outputs.frontend_url }}
       frontend_storage: ${{ steps.tf_output.outputs.frontend_storage }}
     defaults:
       run:
@@ -48,6 +49,16 @@ jobs:
         run: |
           echo "backend_url=$(terraform output -raw backend_url)" >> $GITHUB_OUTPUT
           echo "frontend_storage=$(terraform output -raw frontend_storage_name)" >> $GITHUB_OUTPUT
+
+      - name: Save frontend_url to file
+        run: |
+          terraform output -raw frontend_url >> frontend_url.txt
+
+      - name: Upload Frontend Url Artifact
+        uses: actions/upload-artifact@v4
+        with:
+            name: frontend-url
+            path: frontend_url.txt
 
   find-artifacts:
     runs-on: ubuntu-latest

@@ -1,0 +1,34 @@
+name: Keep Function Warm
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Runs every 5 minutes
+
+jobs:
+  keep_warm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find Last Successful Workflow with Frontend Url artifact
+        id: find_frontend_url_artifact
+        run: |
+          LATEST_RUN_ID=$(gh run list \
+            --workflow "deployment.yaml" \
+            --branch main \
+            --json databaseId,conclusion \
+            --jq '[.[] | select(.conclusion=="success")] | .[].databaseId' | while read RUN_ID; do
+              ARTIFACTS=$(gh api repos/:owner/:repo/actions/runs/$RUN_ID/artifacts --jq '.artifacts[].name')
+              echo "$ARTIFACTS" | grep -q "frontend-url" && echo $RUN_ID && break
+            done)
+          
+          echo "frontend_run_id=$LATEST_RUN_ID" >> $GITHUB_OUTPUT
+
+      - name: Get Deployment URL
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-url
+          run-id: ${{ ${{ steps.find_frontend_url_artifact.outputs.frontend_run_id }} }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Ping Azure Function
+        run: |
+          curl -s $(cat frontend-url)
