@@ -24,7 +24,6 @@ jobs:
             done)
           
           echo "frontend_run_id=$LATEST_RUN_ID" >> $GITHUB_OUTPUT
-          echo "$LATEST_RUN_ID"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
