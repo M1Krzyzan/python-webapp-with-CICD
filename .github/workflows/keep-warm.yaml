@@ -7,7 +7,6 @@ on:
 jobs:
   keep_warm:
     runs-on: ubuntu-latest
-    outputs:
     steps:
       - name: Find Last Successful Workflow with Frontend Url artifact
         id: find_frontend_url_artifact
