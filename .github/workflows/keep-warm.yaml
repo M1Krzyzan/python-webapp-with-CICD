@@ -12,8 +12,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Find Last Successful Workflow with Backend Url artifact
-        id: find_frontend_url_artifact
+      - name: Find Lafind_frontend_url_artifactst Successful Workflow with Backend Url artifact
+        id: find_backend_url_artifact
         run: |
           LATEST_RUN_ID=$(gh run list \
             --workflow "deployment.yaml" \
