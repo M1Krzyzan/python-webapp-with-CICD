@@ -37,4 +37,4 @@ jobs:
 
       - name: Ping Azure Function
         run: |
-          curl -s "$(cat frontend_url.txt)"
+          curl -s "$(cat backend_url.txt)"
