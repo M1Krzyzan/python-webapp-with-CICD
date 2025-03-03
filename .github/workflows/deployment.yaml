@@ -50,16 +50,6 @@ jobs:
           echo "backend_url=$(terraform output -raw backend_url)" >> $GITHUB_OUTPUT
           echo "frontend_storage=$(terraform output -raw frontend_storage_name)" >> $GITHUB_OUTPUT
 
-      - name: Save backend_url to file
-        run: |
-          terraform output -raw backend_url > backend_url.txt
-
-      - name: Upload Backend Url Artifact
-        uses: actions/upload-artifact@v4
-        with:
-            name: backend-url
-            path: infra/backend_url.txt
-
   find-artifacts:
     runs-on: ubuntu-latest
     outputs:
