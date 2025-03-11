@@ -48,3 +48,7 @@ async def get_products(
     product_service: ProductService = Depends(Provide[Container.product_service]),
 ) -> dict:
     return {"products": product_service.get_all_products()}
+
+@product_router.get("/test", response_model=dict)
+async def get_test():
+    preturn {"test": "successful"}
